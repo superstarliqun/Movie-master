@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.CinemaMovieMiddleMapper">
+  <resultMap id="BaseResultMap" type="com.entity.CinemaMovieMiddle">
+    <!--@mbg.generated-->
+    <!--@Table cinema_movie_middle-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="movie_id" jdbcType="INTEGER" property="movieId" />
+    <result column="cinema_id" jdbcType="INTEGER" property="cinemaId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, movie_id, cinema_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from cinema_movie_middle
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from cinema_movie_middle
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.entity.CinemaMovieMiddle" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into cinema_movie_middle (movie_id, cinema_id)
+    values (#{movieId,jdbcType=INTEGER}, #{cinemaId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.entity.CinemaMovieMiddle" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into cinema_movie_middle
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="movieId != null">
+        movie_id,
+      </if>
+      <if test="cinemaId != null">
+        cinema_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="movieId != null">
+        #{movieId,jdbcType=INTEGER},
+      </if>
+      <if test="cinemaId != null">
+        #{cinemaId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.entity.CinemaMovieMiddle">
+    <!--@mbg.generated-->
+    update cinema_movie_middle
+    <set>
+      <if test="movieId != null">
+        movie_id = #{movieId,jdbcType=INTEGER},
+      </if>
+      <if test="cinemaId != null">
+        cinema_id = #{cinemaId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.entity.CinemaMovieMiddle">
+    <!--@mbg.generated-->
+    update cinema_movie_middle
+    set movie_id = #{movieId,jdbcType=INTEGER},
+      cinema_id = #{cinemaId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="findCinemaMovieMiddlePage" resultType="java.util.HashMap">
+        SELECT
+            cmm.id,
+            c.cinema_name AS cinemaName,
+            mi.movie_name  AS movieName
+        FROM
+            `cinema_movie_middle` AS cmm
+            LEFT JOIN movie_info AS mi ON mi.id = cmm.movie_id
+            LEFT JOIN cinema AS c ON c.id = cmm.cinema_id
+  </select>
+  <select id="exit" resultType="int">
+        SELECT
+            COUNT( * )
+        FROM
+            `cinema_movie_middle`
+        WHERE
+            cinema_id =#{cinemaId,jdbcType=INTEGER}
+            AND movie_id =#{movieId,jdbcType=INTEGER}
+  </select>
+  <select id="movie" resultType="java.util.HashMap">
+        SELECT
+            id,
+            movie_name AS MovieName
+        FROM
+            movie_info
+  </select>
+  <select id="cinema" resultType="java.util.HashMap">
+        SELECT
+            id,
+            cinema_name
+        FROM
+            cinema
+  </select>
+</mapper>

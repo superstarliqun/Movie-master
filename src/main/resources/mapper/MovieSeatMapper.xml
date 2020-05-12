@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.MovieSeatMapper">
+  <resultMap id="BaseResultMap" type="com.entity.MovieSeat">
+    <!--@mbg.generated-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="one_row" jdbcType="VARCHAR" property="oneRow" />
+    <result column="two_row" jdbcType="VARCHAR" property="twoRow" />
+    <result column="three_row" jdbcType="VARCHAR" property="threeRow" />
+    <result column="four_row" jdbcType="VARCHAR" property="fourRow" />
+    <result column="five_row" jdbcType="VARCHAR" property="fiveRow" />
+    <result column="six_row" jdbcType="VARCHAR" property="sixRow" />
+    <result column="sevne_row" jdbcType="VARCHAR" property="sevneRow" />
+    <result column="eight_row" jdbcType="VARCHAR" property="eightRow" />
+    <result column="nine_row" jdbcType="VARCHAR" property="nineRow" />
+    <result column="ten_row" jdbcType="VARCHAR" property="tenRow" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, one_row, two_row, three_row, four_row, five_row, six_row, sevne_row, eight_row, 
+    nine_row, ten_row
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT
+	        movie_seat.*
+        FROM
+            scene_seat_middle AS ssm
+            LEFT JOIN movie_seat ON movie_seat.id = ssm.seat_id
+        WHERE
+            ssm.scene_id =#{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from movie_seat
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.entity.MovieSeat" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into movie_seat (one_row, two_row, three_row, 
+      four_row, five_row, six_row, 
+      sevne_row, eight_row, nine_row, 
+      ten_row)
+    values (#{oneRow,jdbcType=VARCHAR}, #{twoRow,jdbcType=VARCHAR}, #{threeRow,jdbcType=VARCHAR}, 
+      #{fourRow,jdbcType=VARCHAR}, #{fiveRow,jdbcType=VARCHAR}, #{sixRow,jdbcType=VARCHAR}, 
+      #{sevneRow,jdbcType=VARCHAR}, #{eightRow,jdbcType=VARCHAR}, #{nineRow,jdbcType=VARCHAR}, 
+      #{tenRow,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.entity.MovieSeat" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into movie_seat
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="oneRow != null">
+        one_row,
+      </if>
+      <if test="twoRow != null">
+        two_row,
+      </if>
+      <if test="threeRow != null">
+        three_row,
+      </if>
+      <if test="fourRow != null">
+        four_row,
+      </if>
+      <if test="fiveRow != null">
+        five_row,
+      </if>
+      <if test="sixRow != null">
+        six_row,
+      </if>
+      <if test="sevneRow != null">
+        sevne_row,
+      </if>
+      <if test="eightRow != null">
+        eight_row,
+      </if>
+      <if test="nineRow != null">
+        nine_row,
+      </if>
+      <if test="tenRow != null">
+        ten_row,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="oneRow != null">
+        #{oneRow,jdbcType=VARCHAR},
+      </if>
+      <if test="twoRow != null">
+        #{twoRow,jdbcType=VARCHAR},
+      </if>
+      <if test="threeRow != null">
+        #{threeRow,jdbcType=VARCHAR},
+      </if>
+      <if test="fourRow != null">
+        #{fourRow,jdbcType=VARCHAR},
+      </if>
+      <if test="fiveRow != null">
+        #{fiveRow,jdbcType=VARCHAR},
+      </if>
+      <if test="sixRow != null">
+        #{sixRow,jdbcType=VARCHAR},
+      </if>
+      <if test="sevneRow != null">
+        #{sevneRow,jdbcType=VARCHAR},
+      </if>
+      <if test="eightRow != null">
+        #{eightRow,jdbcType=VARCHAR},
+      </if>
+      <if test="nineRow != null">
+        #{nineRow,jdbcType=VARCHAR},
+      </if>
+      <if test="tenRow != null">
+        #{tenRow,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.entity.MovieSeat">
+    <!--@mbg.generated-->
+    update movie_seat
+    <set>
+      <if test="oneRow != null">
+        one_row = #{oneRow,jdbcType=VARCHAR},
+      </if>
+      <if test="twoRow != null">
+        two_row = #{twoRow,jdbcType=VARCHAR},
+      </if>
+      <if test="threeRow != null">
+        three_row = #{threeRow,jdbcType=VARCHAR},
+      </if>
+      <if test="fourRow != null">
+        four_row = #{fourRow,jdbcType=VARCHAR},
+      </if>
+      <if test="fiveRow != null">
+        five_row = #{fiveRow,jdbcType=VARCHAR},
+      </if>
+      <if test="sixRow != null">
+        six_row = #{sixRow,jdbcType=VARCHAR},
+      </if>
+      <if test="sevneRow != null">
+        sevne_row = #{sevneRow,jdbcType=VARCHAR},
+      </if>
+      <if test="eightRow != null">
+        eight_row = #{eightRow,jdbcType=VARCHAR},
+      </if>
+      <if test="nineRow != null">
+        nine_row = #{nineRow,jdbcType=VARCHAR},
+      </if>
+      <if test="tenRow != null">
+        ten_row = #{tenRow,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.entity.MovieSeat">
+    <!--@mbg.generated-->
+    update movie_seat
+    set one_row = #{oneRow,jdbcType=VARCHAR},
+      two_row = #{twoRow,jdbcType=VARCHAR},
+      three_row = #{threeRow,jdbcType=VARCHAR},
+      four_row = #{fourRow,jdbcType=VARCHAR},
+      five_row = #{fiveRow,jdbcType=VARCHAR},
+      six_row = #{sixRow,jdbcType=VARCHAR},
+      sevne_row = #{sevneRow,jdbcType=VARCHAR},
+      eight_row = #{eightRow,jdbcType=VARCHAR},
+      nine_row = #{nineRow,jdbcType=VARCHAR},
+      ten_row = #{tenRow,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

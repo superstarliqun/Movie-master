@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>头部文件</title>
+</head>
+<body>
+<div class="main-header">
+    <!-- Logo 标题 -->
+    <div class="logo-header" data-background-color="blue">
+
+        <a href="/Movie/views/admin/User.html" class="logo">
+            <!--系统logo -->
+            <img src="/Movie/static/images/logo_empty.png" alt="navbar brand" class="navbar-brand" style="width: 170px;">
+        </a>
+
+    </div>
+    <!-- End Logo Header -->
+
+    <!-- Navbar Header -->
+    <nav class="navbar navbar-header navbar-expand-lg" data-background-color="blue2">
+        <div class="container-fluid">
+            <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
+                <li class="nav-item dropdown hidden-caret">
+                    <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false">
+                        <div class="avatar-sm">
+                            <!-- 个人头像 -->
+                            <img src="/Movie/static/assets/img/profile.jpg" alt="..." class="avatar-img rounded-circle">
+                        </div>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user animated fadeIn">
+                        <div class="dropdown-user-scroll scrollbar-outer">
+                            <li>
+                                <a class="dropdown-item" onclick="exit()">注销</a>
+                            </li>
+                        </div>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- End Navbar -->
+</div>
+</body>
+<script>
+    $(function () {
+        var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+        if(userInfo.id!=null&&userInfo.id!=""){
+            $(".avatar-img").attr("src","/Movie"+userInfo.img);
+        }
+    })
+    function exit() {
+        sessionStorage.clear();
+        window.location.href="/Movie/views/admin/login.html";
+    }
+</script>
+</html>

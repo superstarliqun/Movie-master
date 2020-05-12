@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link href="../../static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../static/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <script src="../../static/bootstrap/js/jquery-3.3.1.min.js"></script>
+    <script src="../../static/bootstrap/js/bootstrap.min.js"></script>
+
+    <link rel="icon" type="image/x-icon" href="../../static/images/logo.ico"/>
+    <link rel="stylesheet" type="text/css" href="../../static/css/header.css">
+    <link rel="stylesheet" type="text/css" href="../../static/css/main.css">
+    <link rel="stylesheet" type="text/css" href="../../static/css/footer.css">
+    <link rel="stylesheet" type="text/css" href="../../static/css/buyTickets.css">
+    <link rel="stylesheet" type="text/css" href="../../static/css/movieDetail.css">
+    <script src="../../static/js/header.js" charset="utf-8"></script>
+    <script src="../../static/js/Api.js"></script>
+
+    <script src="../../static/layui/layui.js" charset="utf-8"></script>
+    <script src="../../static/js/buyTickets.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="../../static/layui/css/layui.css" media="all">
+    <title>兔兔淘票-选影院</title>
+</head>
+<body>
+<!-- ------------------------------------------------------------------- -->
+<!-- 导航栏 -->
+<div class="headerpage"></div>
+
+
+<!-- 占位符 -->
+<div style="margin-top: 80px;"></div>
+
+<!-- 巨幕 -->
+<div class="banner2">
+    <div class="wrapper clearfix">
+        <div class="celeInfo-left">
+            <div class="avatar-shadow">
+                <!-- 图片 -->
+            </div>
+        </div>
+
+        <div class="celeInfo-right clearfix">
+            <div class="movie-brief-container">
+                <!-- 上 -->
+
+            </div>
+            <div class="action-buyBtn">
+                <div class="action clearfix" data-val="{movieid:42964}">
+                    <a class="wish " data-wish="false" onclick="wantSee()">
+                        <div>
+                            <i class="icon wish-icon"></i>
+                            <span class="wish-msg" data-act="wish-click">想看</span>
+                        </div>
+                    </a>
+                    <a class="score-btn " data-bid="b_rxxpcgwd" onclick="giveScore()">
+                        <div>
+                            <i class="icon score-btn-icon"></i>
+                            <span class="score-btn-msg" data-act="comment-open-click">评分</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="moreMovie">
+                    <a class="btn buy" href="#" data-act="more-detail-click">查看更多电影详情</a>
+                </div>
+            </div>
+
+            <div class="movie-stats-container">
+                <div class="movie-index">
+                    <p class="movie-index-title">用户评分</p>
+                    <div class="movie-index-content score normal-score">
+                            <span class="index-left info-num ">
+                                <!-- 评分 -->
+                                <span class="stonefont">7.9</span>
+                            </span>
+                        <div class="index-right">
+                            <div class="star-wrapper">
+                                <div id="MovieScore"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="movie-index">
+                    <p class="movie-index-title">累计票房</p>
+                    <div class="movie-index-content box stonefont-num">
+                        <!-- 票房数 -->
+                        <span class="stonefont">10000</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- 占位符 -->
+<div style="margin-top: 50px;"></div>
+
+<!-- 主体 -->
+<div class="main">
+    <div class="main-inner main-buyticket">
+        <!-- 标签 -->
+        <div class="tags-panel">
+            <ul class="tags-lines">
+                <li class="tags-line tags-line-border" data-type="district">
+                    <div class="tags-title">行政区:</div>
+                    <ul class="tags tags-area">
+                        <!-- 行政区 -->
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!-- 列表 -->
+        <div class="cinemas-list">
+            <h2 class="cinemas-list-header">影院列表</h2>
+        <div class="styad"></div>
+
+
+
+        </div>
+        <!-- 分页 -->
+        <div class="cinema-pager">
+            <ul class="list-pager">
+            </ul>
+        </div>
+    </div>
+</div>
+<!--底部文件引用位置-->
+<div class="bottompage"></div>
+
+
+<!-- ------------------------------------------------------------------- -->
+<script src="/Movie/static/js/buyTickets.js" charset="utf-8"></script>
+<script>
+    var clientHeight = document.documentElement.clientHeight;
+    var movie_id =getUrlParams("movie_id");
+    var area;
+    var list= ["全部"];
+    $(function () {
+        $(".headerpage").load("include/header.html");
+        $(".bottompage").load("include/footer.html");
+        initDetail(movie_id==null?"1":movie_id);
+        DropDownCinema();//获取导航的行政区
+        initParams();  //初始化参数area
+        initTags(); //标签和分页
+        initCinema(movie_id==null?"1":movie_id,getUrlParams("area")=="全部" ?"":getUrlParams("area"))
+    })
+
+    //查询所有行政区
+    function DropDownCinema() {
+        $.ajax({
+            url:"/Movie/Cinema/findDropDownCinema",    //请求的url地址
+            async:false,
+            dataType:"json",
+            type:"GET",
+            success:function(data){
+                $.each(data.data,function (i) {
+                    list.push(data.data[i].region)
+                });
+            }
+        });
+    }
+    //初始化标签和分页
+    function initTags(){
+        var tagsArea = $(".tags-area");
+        var AreaStr = list;
+        var  AreaActive = [];
+        var urlTemp = ["&area="+area];
+        AreaActive = inputTags(AreaStr, AreaActive, area);
+        for(var i=0;i<AreaStr.length;i++){
+            urlTemp[0] = "&area="+ AreaStr[i];
+            tagsArea.append(
+                "<li " + AreaActive[i] + ">" +
+                "<a href=\"?movie_id="+ movie_id + urlTemp[0]+"\">"+
+                AreaStr[i] +
+                "</a>" +
+                "</li>"
+            );
+        }
+    }
+    //导入活跃标签
+    function inputTags(length, Active, tags){
+        for(var i=0;i<length.length;i++){
+            if(tags=="全部"&&i==0){
+                Active.push("class=\"active\"");
+                break;
+            }
+            if(length[i]==tags){
+                Active.push("class=\"active\"");
+            }
+            else
+                Active.push(" ");
+        }
+        return Active;
+    }
+
+    //初始化url参数
+    function initParams(){
+        if(getUrlParams('area') == null){
+            area = "0";
+        }else{
+            area = getUrlParams('area');
+        }
+    }
+
+    //获取url参数
+    function getUrlParams(name) { // 不传name返回所有值，否则返回对应值
+        var url = window.location.search;
+        if (url.indexOf('?') == 1) { return false; }
+        url = url.substr(1);
+        url = url.split('&');
+        var name = name || '';
+        var nameres;
+        // 获取全部参数及其值
+        for(var i=0;i<url.length;i++) {
+            var info = url[i].split('=');
+            var obj = {};
+            obj[info[0]] = decodeURI(info[1]);
+            url[i] = obj;
+        }
+        // 如果传入一个参数名称，就匹配其值
+        if (name) {
+            for(var i=0;i<url.length;i++) {
+                for (var key in url[i]) {
+                    if (key == name) {
+                        nameres = url[i][key];
+                    }
+                }
+            }
+        } else {
+            nameres = url;
+        }
+        // 返回结果
+         return nameres;
+    };
+</script>
+</body>
+</html>

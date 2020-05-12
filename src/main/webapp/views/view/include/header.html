@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="/Movie/static/bootstrap/js/jquery-3.3.1.min.js"></script>
+    <link rel="icon" type="image/x-icon" href="/Movie/static/images/logo.ico"/>
+    <!--修饰头部文件样式-->
+    <link rel="stylesheet" type="text/css" href="/Movie/static/css/header.css">
+    <script src="/Movie/static/js/header.js" charset="utf-8"></script>
+    <script src="/Movie/static/js/Api.js"></script>
+    <script src="/Movie/static/layui/layui.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="/Movie/static/layui/css/layui.css" media="all">
+
+    <!-- 弹出框显示-->
+    <link rel="stylesheet" href="/Movie/static/notice/animate.css" media="all">
+    <link rel="stylesheet" href="/Movie/static/notice/noticejs.css" media="all">
+    <script src="/Movie/static/notice/notice.js" charset="utf-8"></script>
+    <script src="/Movie/static/js/bootstrap-notify.min.js" charset="utf-8"></script>
+    <title>兔兔淘票</title>
+    <style>
+        .alert-default{
+            border-left: 4px solid #1a2035;
+        }
+        .alert{
+            border-left: 4px solid #1a2035;
+            width: 25%;
+            border: 0;
+            position: relative;
+            padding: 1.95rem 1.25rem;
+            border-radius: 3px;
+            color: inherit;
+            background-color: #d6ec7c;
+            box-shadow: 1px 1px 14px 0 rgba(18,38,63,.26);
+        }
+
+    </style>
+</head>
+<body>
+<!-- 导航栏 -->
+<div class="header navbar navbar-fixed-top">
+    <div class="header-top">
+        <div class="header-inner">
+            <h1>
+                <a href="/Movie/index.html" class="logo"></a>
+            </h1>
+            <div class="nav">
+                <ul>
+                    <li><a href="/Movie/index.html">首页</a></li>
+                    <li class="active"><a href="/Movie/views/view/movieList.html">电影</a></li>
+                    <li><a href="/Movie/views/view/cinemaList.html">影院</a></li>
+                </ul>
+            </div>
+
+            <div class="user-info">
+                <div class="user-avatar J-login">
+                    <ul class="layui-nav" style="background-color: #fff;">
+                        <li class="layui-nav-item header-li" style="width:40px;" lay-unselect="" style="width: 40px;">
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <form action="/Movie/views/view/detail.html">
+                <input name="movieName" class="search" type="search" maxlength="32" placeholder="请输入电影名称" autocomplete="off">
+                <input class="submit" type="submit" value="">
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        initHeader();
+        Tips();
+    })
+    //注销方法
+    function ReLogin() {
+        new NoticeJs({
+            text: '用户注销成功！',
+            position: 'topRight',
+            animation: {
+                open: 'animated bounceIn',
+                close: 'animated bounceOut'
+            }
+        }).show();
+        setTimeout(function(){
+            localStorage.clear();
+            sessionStorage.clear();
+            window.location.href = "/Movie/views/view/login.html";
+        }, 1000);
+    }
+    function Tips() {
+        var userInfo = JSON.parse(localStorage.getItem("userJson"));
+        var Tips =  sessionStorage.getItem("Tips");
+        if(userInfo.id!=null&&userInfo.id!=""){
+            $.ajax({
+                url:"http://localhost:8080/Movie/order/findOrderTime",    //请求的url地址
+                dataType:"json",   //返回格式为json
+                data:{
+                    "id":28
+                },
+                type:"GET",   //请求方式
+                success:function(data){
+                    if(data.status==200&&Tips==null){
+                        sessionStorage.setItem("Tips","true")
+                        $.each(data.data,function(i,item){
+                            var content = {};
+                            content.icon = 'none';
+                            content.target = '_blank';
+                            content.message = '您的订单编号：'+item+',30分钟之内即将播放，请及时到场观看电影！ 祝你玩得开心';
+                            content.title = '系统提示';
+                            $.notify(content,{
+                                type: "default",
+                                placement: {
+                                    from: "top",
+                                    align: "right"
+                                },
+                                time: 1000,
+                                delay: 0,
+                            });
+                        });
+                    }
+
+                }
+            });
+        }
+
+    }
+</script>
+</body>
+</html>

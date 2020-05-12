@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.MovieInfoMapper">
+  <resultMap id="BaseResultMap" type="com.entity.MovieInfo">
+    <!--@mbg.generated-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="movie_name" jdbcType="VARCHAR" property="movieName" />
+    <result column="director" jdbcType="VARCHAR" property="director" />
+    <result column="director_img_url" jdbcType="VARCHAR" property="directorImgUrl" />
+    <result column="movie_details" jdbcType="VARCHAR" property="movieDetails" />
+    <result column="movie_img_name" jdbcType="VARCHAR" property="movieImgName" />
+    <result column="movie_img_url" jdbcType="VARCHAR" property="movieImgUrl" />
+    <result column="movie_category_id" jdbcType="INTEGER" property="movieCategoryId" />
+    <result column="movie_category_name" jdbcType="VARCHAR" property="movieCategoryName" />
+    <result column="movie_stauts" jdbcType="VARCHAR" property="movieStauts" />
+    <result column="douban_score" jdbcType="VARCHAR" property="doubanScore" />
+    <result column="movie_duration" jdbcType="VARCHAR" property="movieDuration" />
+    <result column="release_time" jdbcType="TIMESTAMP" property="releaseTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="box_office" jdbcType="VARCHAR" property="boxOffice" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, movie_name, director, director_img_url, movie_details, movie_img_name, movie_img_url, 
+    movie_category_id, movie_stauts, douban_score, movie_duration, release_time, create_time, 
+    box_office
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="com.entity.MovieInfo" resultMap="BaseResultMap">
+    SELECT
+        movie_info.id,
+        movie_info.movie_name,
+        movie_info.director,
+        movie_info.director_img_url,
+        movie_info.movie_details,
+        movie_info.movie_img_name,
+        movie_info.movie_img_url,
+        movie_info.movie_category_id,
+        movie_category.`name` AS movie_category_name,
+        movie_info.movie_stauts,
+        movie_info.douban_score,
+        movie_info.movie_duration,
+        movie_info.release_time,
+        movie_info.create_time,
+        movie_info.box_office
+    FROM
+        movie_info
+    LEFT JOIN movie_category ON movie_category.id = movie_info.movie_category_id
+    <where>
+        <if test="id != null">
+            movie_info.id = #{id,jdbcType=INTEGER}
+        </if>
+        <if test="movieName != null and movieName != ''">
+            movie_info.movie_name = #{movieName,jdbcType=VARCHAR}
+        </if>
+    </where>
+
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from movie_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.entity.MovieInfo" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into movie_info (movie_name, director, director_img_url, 
+      movie_details, movie_img_name, movie_img_url, 
+      movie_category_id, movie_stauts, douban_score, 
+      movie_duration, release_time, create_time, 
+      box_office)
+    values (#{movieName,jdbcType=VARCHAR}, #{director,jdbcType=VARCHAR}, #{directorImgUrl,jdbcType=VARCHAR}, 
+      #{movieDetails,jdbcType=VARCHAR}, #{movieImgName,jdbcType=VARCHAR}, #{movieImgUrl,jdbcType=VARCHAR}, 
+      #{movieCategoryId,jdbcType=INTEGER}, #{movieStauts,jdbcType=VARCHAR}, #{doubanScore,jdbcType=VARCHAR}, 
+      #{movieDuration,jdbcType=VARCHAR}, #{releaseTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{boxOffice,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.entity.MovieInfo" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into movie_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="movieName != null">
+        movie_name,
+      </if>
+      <if test="director != null">
+        director,
+      </if>
+      <if test="directorImgUrl != null">
+        director_img_url,
+      </if>
+      <if test="movieDetails != null">
+        movie_details,
+      </if>
+      <if test="movieImgName != null">
+        movie_img_name,
+      </if>
+      <if test="movieImgUrl != null">
+        movie_img_url,
+      </if>
+      <if test="movieCategoryId != null">
+        movie_category_id,
+      </if>
+      <if test="movieStauts != null">
+        movie_stauts,
+      </if>
+      <if test="doubanScore != null">
+        douban_score,
+      </if>
+      <if test="movieDuration != null">
+        movie_duration,
+      </if>
+      <if test="releaseTime != null">
+        release_time,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="boxOffice != null">
+        box_office,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="movieName != null">
+        #{movieName,jdbcType=VARCHAR},
+      </if>
+      <if test="director != null">
+        #{director,jdbcType=VARCHAR},
+      </if>
+      <if test="directorImgUrl != null">
+        #{directorImgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="movieDetails != null">
+        #{movieDetails,jdbcType=VARCHAR},
+      </if>
+      <if test="movieImgName != null">
+        #{movieImgName,jdbcType=VARCHAR},
+      </if>
+      <if test="movieImgUrl != null">
+        #{movieImgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="movieCategoryId != null">
+        #{movieCategoryId,jdbcType=INTEGER},
+      </if>
+      <if test="movieStauts != null">
+        #{movieStauts,jdbcType=VARCHAR},
+      </if>
+      <if test="doubanScore != null">
+        #{doubanScore,jdbcType=VARCHAR},
+      </if>
+      <if test="movieDuration != null">
+        #{movieDuration,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseTime != null">
+        #{releaseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="boxOffice != null">
+        #{boxOffice,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.entity.MovieInfo">
+    <!--@mbg.generated-->
+    update movie_info
+    <set>
+      <if test="movieName != null">
+        movie_name = #{movieName,jdbcType=VARCHAR},
+      </if>
+      <if test="director != null">
+        director = #{director,jdbcType=VARCHAR},
+      </if>
+      <if test="directorImgUrl != null">
+        director_img_url = #{directorImgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="movieDetails != null">
+        movie_details = #{movieDetails,jdbcType=VARCHAR},
+      </if>
+      <if test="movieImgName != null">
+        movie_img_name = #{movieImgName,jdbcType=VARCHAR},
+      </if>
+      <if test="movieImgUrl != null">
+        movie_img_url = #{movieImgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="movieCategoryId != null">
+        movie_category_id = #{movieCategoryId,jdbcType=INTEGER},
+      </if>
+      <if test="movieStauts != null">
+        movie_stauts = #{movieStauts,jdbcType=VARCHAR},
+      </if>
+      <if test="doubanScore != null">
+        douban_score = #{doubanScore,jdbcType=VARCHAR},
+      </if>
+      <if test="movieDuration != null">
+        movie_duration = #{movieDuration,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseTime != null">
+        release_time = #{releaseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="boxOffice != null">
+        box_office = #{boxOffice,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.entity.MovieInfo">
+    <!--@mbg.generated-->
+    update movie_info
+    set movie_name = #{movieName,jdbcType=VARCHAR},
+      director = #{director,jdbcType=VARCHAR},
+      director_img_url = #{directorImgUrl,jdbcType=VARCHAR},
+      movie_details = #{movieDetails,jdbcType=VARCHAR},
+      movie_img_name = #{movieImgName,jdbcType=VARCHAR},
+      movie_img_url = #{movieImgUrl,jdbcType=VARCHAR},
+      movie_category_id = #{movieCategoryId,jdbcType=INTEGER},
+      movie_stauts = #{movieStauts,jdbcType=VARCHAR},
+      douban_score = #{doubanScore,jdbcType=VARCHAR},
+      movie_duration = #{movieDuration,jdbcType=VARCHAR},
+      release_time = #{releaseTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      box_office = #{boxOffice,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="pageMainMovie" resultMap="BaseResultMap">
+        (SELECT * FROM movie_info WHERE movie_stauts = 1 LIMIT 8)
+          UNION
+        (SELECT * FROM movie_info WHERE movie_stauts = 2 LIMIT 12)
+  </select>
+  <select id="Highest" resultMap="BaseResultMap">
+        SELECT
+            id,
+            movie_img_url,
+            movie_name,
+            box_office
+        FROM
+            movie_info
+        ORDER BY
+            box_office DESC
+            LIMIT 9
+  </select>
+  <select id="recommend" resultMap="BaseResultMap">
+        SELECT
+            id,
+            movie_img_url,
+            movie_name,
+            release_time,
+            box_office
+        FROM
+            movie_info
+        WHERE
+            movie_category_id IN ( SELECT DISTINCT movie_info.movie_category_id FROM footprint LEFT JOIN movie_info ON movie_info.id = footprint.movie_id )
+            LIMIT 10
+  </select>
+  <select id="findMoviePage" resultMap="BaseResultMap">
+          SELECT
+              mi.*,
+              mc.`name` AS movie_category_name,
+              mc.id AS movie_category_id
+          FROM
+             movie_info AS mi
+          LEFT JOIN movie_category AS mc ON mc.id = mi.movie_category_id
+            <where>
+                <if test="movieName != null and movieName != ''">
+                    mi.movie_name = #{movieName,jdbcType=VARCHAR}
+                </if>
+            </where>
+  </select>
+    <select id="findAndScene" resultMap="BaseResultMap">
+            SELECT
+                mi.*
+            FROM
+                cinema_movie_middle AS cmm
+                LEFT JOIN movie_info AS mi ON mi.id = cmm.movie_id
+                WHERE cmm.id = #{id,jdbcType=INTEGER}
+    </select>
+  <select id="findTypeMovie" resultMap="BaseResultMap">
+      SELECT
+      movie_info.*
+      FROM
+      movie_info
+      LEFT JOIN movie_category ON movie_category.id = movie_info.movie_category_id
+        <where>
+            <if test="param1 != null and param1 != ''">
+                movie_category.`name` =  #{param1,jdbcType=VARCHAR}
+            </if>
+            <if test="param2 != null">
+                AND movie_stauts =#{param2,jdbcType=VARCHAR}
+            </if>
+        </where>
+  </select>
+</mapper>

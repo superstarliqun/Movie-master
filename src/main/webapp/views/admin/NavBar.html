@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="sidebar sidebar-style-2 ">
+
+    <div class="sidebar-wrapper scrollbar scrollbar-inner">
+        <div class="sidebar-content">
+            <div class="user">
+                <div class="avatar-sm float-left mr-2">
+                    <img src="/Movie/static/assets/img/profile.jpg" alt="..." class="avatar-img rounded-circle">
+                </div>
+                <div class="info">
+                    <a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
+								<span>
+                                    <div class="Welcome">暂未登录系统，请点击登录系统！</div>
+									<span class="user-level">Administrator</span>
+								</span>
+                    </a>
+                </div>
+            </div>
+            <!--导航栏start-->
+            <ul class="nav nav-primary">
+                <li class="nav-item">
+                    <a data-toggle="collapse" href="#dashboard" class="collapsed" aria-expanded="false">
+                        <i class="fas fa-home"></i>
+                        <p>返回主页</p>
+                    </a>
+                </li>
+                <!-- 左侧导航栏开始标签 -->
+                <li class="nav-item">
+                    <a data-toggle="collapse" href="#user">
+                        <i class="fas fa-layer-group"></i>
+                        <p>用户管理</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse" id="user">
+                        <ul class="nav nav-collapse">
+                            <li>
+                                <a href="/Movie/views/admin/User.html">
+                                    <span class="sub-item one">用户详情管理</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a data-toggle="collapse" href="#movie">
+                        <i class="fas fa-layer-group"></i>
+                        <p>电影管理</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse" id="movie">
+                        <ul class="nav nav-collapse">
+                            <li>
+                                <a href="/Movie/views/admin/movieInfo.html">
+                                    <span class="sub-item two">电影详情管理</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Movie/views/admin/movieCategory.html">
+                                    <span class="sub-item three">电影分类管理</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Movie/views/admin/MovieCinemaBinding.html">
+                                    <span class="sub-item six">电影影院绑定</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a data-toggle="collapse" href="#sceneSeat">
+                        <i class="fas fa-layer-group"></i>
+                        <p>场次管理</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse" id="sceneSeat">
+                        <ul class="nav nav-collapse">
+                            <li>
+                                <a href="/Movie/views/admin/scene.html">
+                                    <span class="sub-item four">场次管理</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Movie/views/admin/SceneSeatBinbing.html">
+                                    <span class="sub-item seven">场次座位绑定</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                <a data-toggle="collapse" href="#cinema">
+                    <i class="fas fa-layer-group"></i>
+                    <p>影院管理</p>
+                    <span class="caret"></span>
+                </a>
+                <div class="collapse" id="cinema">
+                    <ul class="nav nav-collapse">
+                        <li>
+                            <a href="/Movie/views/admin/cinema.html">
+                                <span class="sub-item five">影院管理</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                </li>
+                <!-- 左侧导航栏结束标签-->
+            </ul>
+            <!--导航栏end-->
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    $(function () {
+        var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+        if(userInfo.id!=null&&userInfo.id!=""){
+            $(".Welcome").html("欢迎您登录本系统！")
+            $(".user-level").html(userInfo.userName)
+            $(".avatar-img").attr("src",userInfo.img);
+        }
+        var NavBar =  sessionStorage.getItem("NavBar")
+        if(NavBar!=undefined&&NavBar!=""){
+            $("."+NavBar).parent().parent().attr("class","active")
+            $("."+NavBar).parent().parent().parent().attr("class","nav nav-collapse")
+            $("."+NavBar).parent().parent().parent().parent().attr("class","collapse show")
+            $("."+NavBar).parent().parent().parent().parent().parent().attr("class","nav-item active submenu")
+        }
+    })
+    $(".sub-item").click("click",function(){
+        var array=this.className.split(" ");
+        sessionStorage.setItem("NavBar",array[1])
+    });
+</script>
+</html>
