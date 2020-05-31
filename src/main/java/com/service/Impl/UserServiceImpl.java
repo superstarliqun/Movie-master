@@ -117,8 +117,8 @@ public class UserServiceImpl implements UserService{
     @Override
     public PageInfo findUserPage(User user, PageInfo pageInfo) {
         PageHelper.startPage(pageInfo.getPageNum(), pageInfo.getPageSize());
-        List<User> pageMovie = userMapper.findPageMovie(user);
-        return new PageInfo(pageMovie);
+        List<User> pageUser = userMapper.findPageMovie(user);
+        return new PageInfo(pageUser);
     }
 
     @Override
